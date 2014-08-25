@@ -12,7 +12,7 @@ class LifeSimRunner
 {
 public:
 
-    LifeSimRunner(std::string fname);
+    LifeSimRunner();
     ~LifeSimRunner();
 
     void simGeneration();

@@ -2,7 +2,7 @@
 
 int main()
 {
-    LifeController control("");
+    LifeController control;
     control.runLife();
     return 0;
 }

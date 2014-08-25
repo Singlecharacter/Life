@@ -13,7 +13,7 @@ class LifeController
 {
 public:
 
-    LifeController(std::string fname);
+    LifeController();
     ~LifeController();
 
     void runLife();

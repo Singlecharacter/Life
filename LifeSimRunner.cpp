@@ -1,6 +1,6 @@
 #include "LifeSimRunner.h"
 
-LifeSimRunner::LifeSimRunner(std::string fname = "")
+LifeSimRunner::LifeSimRunner()
 {
     chunkList.resize(0);
     randomize();

@@ -1,12 +1,12 @@
 #include "LifeController.h"
 
-LifeController::LifeController(std::string fname = "") : paused(true), debug(false)
+LifeController::LifeController() : paused(true), debug(false)
 {
     simRunner = NULL;
     display = NULL;
     srand(time(NULL));
     SDL_Init(SDL_INIT_VIDEO);
-    simRunner = new LifeSimRunner(fname);
+    simRunner = new LifeSimRunner();
     display = new LifeDisplayHandler();
     display->drawChunks(simRunner->getChunks());
 }
@@ -61,10 +61,29 @@ void LifeController::runLife()
                 else if(e.key.keysym.sym == SDLK_LSHIFT || e.key.keysym.sym == SDLK_RSHIFT)
                 {
                     debug = !debug;
+                    if(!debug)
+                    {
+                        display->drawChunks(simRunner->getChunks());
+                    }
+                    else
+                    {
+                        display->drawChunkBoundaries(simRunner->getChunks());
+                    }
                 }
                 else if(e.key.keysym.sym == SDLK_p)
                 {
                     paused = !paused;
+                }
+                else if(e.key.keysym.sym == SDLK_r)
+                {
+                    paused = true;
+                    debug = false;
+                    delete simRunner;
+                    simRunner = NULL;
+                    simRunner = new LifeSimRunner();
+                    display->setRenderX(0);
+                    display->setRenderY(0);
+                    display->drawChunks(simRunner->getChunks());
                 }
                 else if(e.key.keysym.sym == SDLK_w)
                 {
