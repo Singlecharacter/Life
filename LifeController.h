@@ -1,6 +1,7 @@
 #ifndef LIFECONTROLLER_H
 #define LIFECONTROLLER_H
 
+#undef main
 #include <SDL.h>
 #include <ctime>
 #include <cstdlib>
@@ -24,6 +25,7 @@ private:
     LifeSimRunner *simRunner;
 
     bool paused;
+    bool debug;
 };
 
 #endif // LIFECONTROLLER_H

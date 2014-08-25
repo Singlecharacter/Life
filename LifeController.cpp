@@ -1,6 +1,6 @@
 #include "LifeController.h"
 
-LifeController::LifeController(std::string fname = "") : paused(true)
+LifeController::LifeController(std::string fname = "") : paused(true), debug(false)
 {
     simRunner = NULL;
     display = NULL;
@@ -8,6 +8,7 @@ LifeController::LifeController(std::string fname = "") : paused(true)
     SDL_Init(SDL_INIT_VIDEO);
     simRunner = new LifeSimRunner(fname);
     display = new LifeDisplayHandler();
+    display->drawChunks(simRunner->getChunks());
 }
 
 LifeController::~LifeController()
@@ -27,6 +28,15 @@ void LifeController::runLife()
         if(!paused)
         {
             simRunner->simGeneration();
+
+            if(!debug)
+            {
+                display->drawChunks(simRunner->getChunks());
+            }
+            else
+            {
+                display->drawChunkBoundaries(simRunner->getChunks());
+            }
         }
         SDL_Event e;
         while(SDL_PollEvent(&e))
@@ -38,7 +48,19 @@ void LifeController::runLife()
                     if(paused)
                     {
                         simRunner->simGeneration();
+                        if(!debug)
+                        {
+                            display->drawChunks(simRunner->getChunks());
+                        }
+                        else
+                        {
+                            display->drawChunkBoundaries(simRunner->getChunks());
+                        }
                     }
+                }
+                else if(e.key.keysym.sym == SDLK_LSHIFT || e.key.keysym.sym == SDLK_RSHIFT)
+                {
+                    debug = !debug;
                 }
                 else if(e.key.keysym.sym == SDLK_p)
                 {
@@ -88,19 +110,53 @@ void LifeController::runLife()
 
         if(wpressed)
         {
-            display->setRenderY(display->getRenderY()-2);
+            display->setRenderY(display->getRenderY()-6);
+            if(!debug)
+            {
+                display->drawChunks(simRunner->getChunks());
+            }
+            else
+            {
+                display->drawChunkBoundaries(simRunner->getChunks());
+            }
         }
         if(spressed)
         {
-            display->setRenderY(display->getRenderY()+2);
+            display->setRenderY(display->getRenderY()+6);
+            if(!debug)
+            {
+                display->drawChunks(simRunner->getChunks());
+            }
+            else
+            {
+                display->drawChunkBoundaries(simRunner->getChunks());
+            }
         }
         if(apressed)
         {
-            display->setRenderX(display->getRenderX()-2);
+            display->setRenderX(display->getRenderX()-6);
+            if(!debug)
+            {
+                display->drawChunks(simRunner->getChunks());
+            }
+            else
+            {
+                display->drawChunkBoundaries(simRunner->getChunks());
+            }
         }
         if(dpressed)
         {
-            display->setRenderX(display->getRenderX()+2);
+            display->setRenderX(display->getRenderX()+6);
+            if(!debug)
+            {
+                display->drawChunks(simRunner->getChunks());
+            }
+            else
+            {
+                display->drawChunkBoundaries(simRunner->getChunks());
+            }
         }
+
+        SDL_Delay(50);
     }
 }

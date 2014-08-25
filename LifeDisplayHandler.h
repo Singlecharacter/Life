@@ -2,7 +2,10 @@
 #define LIFEDISPLAYHANDLER_H
 
 #include <vector>
+
+#undef main
 #include <SDL.h>
+#include <iostream>
 #include "LifeChunk.h"
 
 class LifeDisplayHandler
@@ -18,14 +21,15 @@ public:
     int getRenderY();
     void setRenderY(int newRenderY);
 
-    void drawChunks(std::vector<LifeChunk> displayChunks);
+    void drawChunks(std::vector<LifeChunk> *displayChunks);
+    void drawChunkBoundaries(std::vector<LifeChunk> *displayChunks);
 
 private:
 
     SDL_Window *lifeWindow;
     SDL_Renderer *lifeRenderer;
-    SDL_Texture *cellTexture;
     SDL_Surface *cellSurface;
+    SDL_Texture *cellTexture;
 
     int renderX, renderY;
 };

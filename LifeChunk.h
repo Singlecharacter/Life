@@ -17,8 +17,8 @@ public:
     int getY();
     void setY(int newY);
 
-    bool getCellState(int cellX, int cellY);
-    void setCellState(int cellX, int cellY, bool newState);
+    bool getCellState(int cellY, int cellX);
+    void setCellState(int cellY, int cellX, bool newState);
 
     int getLiveCells();
 

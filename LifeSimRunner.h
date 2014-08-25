@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <cstdlib>
+#include <iostream>
 
 #include "LifeChunk.h"
 
@@ -16,7 +17,7 @@ public:
 
     void simGeneration();
 
-    std::vector<LifeChunk> getChunks();
+    std::vector<LifeChunk> *getChunks();
 
 private:
 

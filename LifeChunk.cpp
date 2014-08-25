@@ -47,12 +47,12 @@ void LifeChunk::setY(int newY)
     y = newY;
 }
 
-bool LifeChunk::getCellState(int cellX, int cellY)
+bool LifeChunk::getCellState(int cellY, int cellX)
 {
     return cellArray[cellY][cellX];
 }
 
-void LifeChunk::setCellState(int cellX, int cellY, bool newState)
+void LifeChunk::setCellState(int cellY, int cellX, bool newState)
 {
     cellArray[cellY][cellX] = newState;
 }
