@@ -20,14 +20,8 @@ void LifeSimRunner::simGeneration()
     for(int i = 0;i < chunkList.size();i++)
     {
         std::cout << "Checking chunk " << i+1 << " of " << chunkList.size() << "..." << std::endl;
-        LifeChunk *currentChunk = &chunkList.at(i);
-        LifeChunk *currentNextGenChunk = &nextGenChunkList.at(i);
-
-        if(currentChunk == NULL || currentNextGenChunk == NULL)
-        {
-            std::cout << "ERROR SIMULATING GENERATION" << std::endl;
-            break;
-        }
+        LifeChunk currentChunk = chunkList.at(i);
+        LifeChunk currentNextGenChunk = nextGenChunkList.at(i);
 
         int liveInnerCells = 0;
         //Check inner square of cells
@@ -36,55 +30,55 @@ void LifeSimRunner::simGeneration()
             for(int k = 1;k < 15;k++)
             {
                 int liveNeighbors = 0;
-                if(currentChunk->getCellState(j-1,k-1))
+                if(currentChunk.getCellState(j-1,k-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j-1,k))
+                if(currentChunk.getCellState(j-1,k))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j-1,k+1))
+                if(currentChunk.getCellState(j-1,k+1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,k-1))
+                if(currentChunk.getCellState(j+1,k-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,k))
+                if(currentChunk.getCellState(j+1,k))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,k+1))
+                if(currentChunk.getCellState(j+1,k+1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j,k-1))
+                if(currentChunk.getCellState(j,k-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j,k+1))
+                if(currentChunk.getCellState(j,k+1))
                 {
                     liveNeighbors += 1;
                 }
 
                 if(liveNeighbors < 2)
                 {
-                    currentNextGenChunk->setCellState(j,k,false);
+                    currentNextGenChunk.setCellState(j,k,false);
                 }
-                else if(liveNeighbors == 2 && currentNextGenChunk->getCellState(j,k))
+                else if(liveNeighbors == 2 && currentNextGenChunk.getCellState(j,k))
                 {
                     liveInnerCells += 1;
                 }
                 else if(liveNeighbors == 3)
                 {
-                    currentNextGenChunk->setCellState(j,k,true);
+                    currentNextGenChunk.setCellState(j,k,true);
                     liveInnerCells += 1;
                 }
                 else if(liveNeighbors > 3)
                 {
-                    currentNextGenChunk->setCellState(j,k,false);
+                    currentNextGenChunk.setCellState(j,k,false);
                 }
             }
         }
@@ -104,47 +98,47 @@ void LifeSimRunner::simGeneration()
 
         for(int j = 0;j < chunkList.size();j++)
         {
-            if(chunkList.at(j).getX() == currentChunk->getX())
+            if(chunkList.at(j).getX() == currentChunk.getX())
             {
-                if(chunkList.at(j).getY() == currentChunk->getY() - 1)
+                if(chunkList.at(j).getY() == currentChunk.getY() - 1)
                 {
                     topChunk = &chunkList.at(j);
                 }
-                else if(chunkList.at(j).getY() == currentChunk->getY() + 1)
+                else if(chunkList.at(j).getY() == currentChunk.getY() + 1)
                 {
                     bottomChunk = &chunkList.at(j);
                 }
             }
-            else if(chunkList.at(j).getX() == currentChunk->getX()-1)
+            else if(chunkList.at(j).getX() == currentChunk.getX()-1)
             {
-                if(chunkList.at(j).getY() == currentChunk->getY() - 1)
+                if(chunkList.at(j).getY() == currentChunk.getY() - 1)
                 {
                     topLeftChunk = &chunkList.at(j);
                 }
-                else if(chunkList.at(j).getY() == currentChunk->getY() + 1)
+                else if(chunkList.at(j).getY() == currentChunk.getY() + 1)
                 {
                     bottomLeftChunk = &chunkList.at(j);
                 }
             }
-            else if(chunkList.at(j).getX() == currentChunk->getX()+1)
+            else if(chunkList.at(j).getX() == currentChunk.getX()+1)
             {
-                if(chunkList.at(j).getY() == currentChunk->getY() - 1)
+                if(chunkList.at(j).getY() == currentChunk.getY() - 1)
                 {
                     topRightChunk = &chunkList.at(j);
                 }
-                else if(chunkList.at(j).getY() == currentChunk->getY() + 1)
+                else if(chunkList.at(j).getY() == currentChunk.getY() + 1)
                 {
                     bottomRightChunk = &chunkList.at(j);
                 }
             }
 
-            if(chunkList.at(j).getY() == currentChunk->getY())
+            if(chunkList.at(j).getY() == currentChunk.getY())
             {
-                if(chunkList.at(j).getX() == currentChunk->getX() - 1)
+                if(chunkList.at(j).getX() == currentChunk.getX() - 1)
                 {
                     leftChunk = &chunkList.at(j);
                 }
-                else if(chunkList.at(j).getX() == currentChunk->getX() + 1)
+                else if(chunkList.at(j).getX() == currentChunk.getX() + 1)
                 {
                     rightChunk = &chunkList.at(j);
                 }
@@ -163,44 +157,44 @@ void LifeSimRunner::simGeneration()
             for(int j = 1;j < 15;j++)
             {
                 int liveNeighbors = 0;
-                if(currentChunk->getCellState(0,j-1))
+                if(currentChunk.getCellState(0,j-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(0,j+1))
+                if(currentChunk.getCellState(0,j+1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(1,j-1))
+                if(currentChunk.getCellState(1,j-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(1,j))
+                if(currentChunk.getCellState(1,j))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(1,j+1))
+                if(currentChunk.getCellState(1,j+1))
                 {
                     liveNeighbors += 1;
                 }
 
                 if(liveNeighbors < 2)
                 {
-                    currentNextGenChunk->setCellState(0,j,false);
+                    currentNextGenChunk.setCellState(0,j,false);
                 }
                 else if(liveNeighbors == 3)
                 {
-                    currentNextGenChunk->setCellState(0,j,true);
+                    currentNextGenChunk.setCellState(0,j,true);
                     if(!madeNewChunk)
                     {
-                        LifeChunk temp(currentChunk->getX(),currentChunk->getY()-1);
+                        LifeChunk temp(currentChunk.getX(),currentChunk.getY()-1);
                         nextGenChunkList.push_back(temp);
                         madeNewChunk = true;
                     }
                 }
                 else if(liveNeighbors > 3)
                 {
-                    currentNextGenChunk->setCellState(0,j,false);
+                    currentNextGenChunk.setCellState(0,j,false);
                 }
             }
         }
@@ -209,23 +203,23 @@ void LifeSimRunner::simGeneration()
             for(int j = 1;j < 15;j++)
             {
                 int liveNeighbors = 0;
-                if(currentChunk->getCellState(0,j-1))
+                if(currentChunk.getCellState(0,j-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(0,j+1))
+                if(currentChunk.getCellState(0,j+1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(1,j-1))
+                if(currentChunk.getCellState(1,j-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(1,j))
+                if(currentChunk.getCellState(1,j))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(1,j+1))
+                if(currentChunk.getCellState(1,j+1))
                 {
                     liveNeighbors += 1;
                 }
@@ -244,15 +238,15 @@ void LifeSimRunner::simGeneration()
 
                 if(liveNeighbors < 2)
                 {
-                    currentNextGenChunk->setCellState(0,j,false);
+                    currentNextGenChunk.setCellState(0,j,false);
                 }
                 else if(liveNeighbors == 3)
                 {
-                    currentNextGenChunk->setCellState(0,j,true);
+                    currentNextGenChunk.setCellState(0,j,true);
                 }
                 else if(liveNeighbors > 3)
                 {
-                    currentNextGenChunk->setCellState(0,j,false);
+                    currentNextGenChunk.setCellState(0,j,false);
                 }
             }
         }
@@ -265,44 +259,44 @@ void LifeSimRunner::simGeneration()
             for(int j = 1;j < 15;j++)
             {
                 int liveNeighbors = 0;
-                if(currentChunk->getCellState(15,j-1))
+                if(currentChunk.getCellState(15,j-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(15,j+1))
+                if(currentChunk.getCellState(15,j+1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(14,j-1))
+                if(currentChunk.getCellState(14,j-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(14,j))
+                if(currentChunk.getCellState(14,j))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(14,j+1))
+                if(currentChunk.getCellState(14,j+1))
                 {
                     liveNeighbors += 1;
                 }
 
                 if(liveNeighbors < 2)
                 {
-                    currentNextGenChunk->setCellState(15,j,false);
+                    currentNextGenChunk.setCellState(15,j,false);
                 }
                 else if(liveNeighbors == 3)
                 {
-                    currentNextGenChunk->setCellState(15,j,true);
+                    currentNextGenChunk.setCellState(15,j,true);
                     if(!madeNewChunk)
                     {
-                        LifeChunk temp(currentChunk->getX(),currentChunk->getY()+1);
+                        LifeChunk temp(currentChunk.getX(),currentChunk.getY()+1);
                         nextGenChunkList.push_back(temp);
                         madeNewChunk = true;
                     }
                 }
                 else if(liveNeighbors > 3)
                 {
-                    currentNextGenChunk->setCellState(15,j,false);
+                    currentNextGenChunk.setCellState(15,j,false);
                 }
             }
         }
@@ -311,23 +305,23 @@ void LifeSimRunner::simGeneration()
             for(int j = 1;j < 15;j++)
             {
                 int liveNeighbors = 0;
-                if(currentChunk->getCellState(15,j-1))
+                if(currentChunk.getCellState(15,j-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(15,j+1))
+                if(currentChunk.getCellState(15,j+1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(14,j-1))
+                if(currentChunk.getCellState(14,j-1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(14,j))
+                if(currentChunk.getCellState(14,j))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(14,j+1))
+                if(currentChunk.getCellState(14,j+1))
                 {
                     liveNeighbors += 1;
                 }
@@ -346,15 +340,15 @@ void LifeSimRunner::simGeneration()
 
                 if(liveNeighbors < 2)
                 {
-                    currentNextGenChunk->setCellState(15,j,false);
+                    currentNextGenChunk.setCellState(15,j,false);
                 }
                 else if(liveNeighbors == 3)
                 {
-                    currentNextGenChunk->setCellState(15,j,true);
+                    currentNextGenChunk.setCellState(15,j,true);
                 }
                 else if(liveNeighbors > 3)
                 {
-                    currentNextGenChunk->setCellState(15,j,false);
+                    currentNextGenChunk.setCellState(15,j,false);
                 }
             }
         }
@@ -367,44 +361,44 @@ void LifeSimRunner::simGeneration()
             for(int j = 1;j < 15;j++)
             {
                 int liveNeighbors = 0;
-                if(currentChunk->getCellState(j-1,0))
+                if(currentChunk.getCellState(j-1,0))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,0))
+                if(currentChunk.getCellState(j+1,0))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j-1,1))
+                if(currentChunk.getCellState(j-1,1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j,1))
+                if(currentChunk.getCellState(j,1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,1))
+                if(currentChunk.getCellState(j+1,1))
                 {
                     liveNeighbors += 1;
                 }
 
                 if(liveNeighbors < 2)
                 {
-                    currentNextGenChunk->setCellState(j,0,false);
+                    currentNextGenChunk.setCellState(j,0,false);
                 }
                 else if(liveNeighbors == 3)
                 {
-                    currentNextGenChunk->setCellState(j,0,true);
+                    currentNextGenChunk.setCellState(j,0,true);
                     if(!madeNewChunk)
                     {
-                        LifeChunk temp(currentChunk->getX()-1,currentChunk->getY());
+                        LifeChunk temp(currentChunk.getX()-1,currentChunk.getY());
                         nextGenChunkList.push_back(temp);
                         madeNewChunk = true;
                     }
                 }
                 else if(liveNeighbors > 3)
                 {
-                    currentNextGenChunk->setCellState(j,0,false);
+                    currentNextGenChunk.setCellState(j,0,false);
                 }
             }
         }
@@ -413,23 +407,23 @@ void LifeSimRunner::simGeneration()
             for(int j = 1;j < 15;j++)
             {
                 int liveNeighbors = 0;
-                if(currentChunk->getCellState(j-1,0))
+                if(currentChunk.getCellState(j-1,0))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,0))
+                if(currentChunk.getCellState(j+1,0))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j-1,1))
+                if(currentChunk.getCellState(j-1,1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j,1))
+                if(currentChunk.getCellState(j,1))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,1))
+                if(currentChunk.getCellState(j+1,1))
                 {
                     liveNeighbors += 1;
                 }
@@ -448,15 +442,15 @@ void LifeSimRunner::simGeneration()
 
                 if(liveNeighbors < 2)
                 {
-                    currentNextGenChunk->setCellState(j,0,false);
+                    currentNextGenChunk.setCellState(j,0,false);
                 }
                 else if(liveNeighbors == 3)
                 {
-                    currentNextGenChunk->setCellState(j,0,true);
+                    currentNextGenChunk.setCellState(j,0,true);
                 }
                 else if(liveNeighbors > 3)
                 {
-                    currentNextGenChunk->setCellState(j,0,false);
+                    currentNextGenChunk.setCellState(j,0,false);
                 }
             }
         }
@@ -469,44 +463,44 @@ void LifeSimRunner::simGeneration()
             for(int j = 1;j < 15;j++)
             {
                 int liveNeighbors = 0;
-                if(currentChunk->getCellState(j-1,15))
+                if(currentChunk.getCellState(j-1,15))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,15))
+                if(currentChunk.getCellState(j+1,15))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j-1,14))
+                if(currentChunk.getCellState(j-1,14))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j,14))
+                if(currentChunk.getCellState(j,14))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,14))
+                if(currentChunk.getCellState(j+1,14))
                 {
                     liveNeighbors += 1;
                 }
 
                 if(liveNeighbors < 2)
                 {
-                    currentNextGenChunk->setCellState(j,15,false);
+                    currentNextGenChunk.setCellState(j,15,false);
                 }
                 else if(liveNeighbors == 3)
                 {
-                    currentNextGenChunk->setCellState(j,15,true);
+                    currentNextGenChunk.setCellState(j,15,true);
                     if(!madeNewChunk)
                     {
-                        LifeChunk temp(currentChunk->getX()+1,currentChunk->getY());
+                        LifeChunk temp(currentChunk.getX()+1,currentChunk.getY());
                         nextGenChunkList.push_back(temp);
                         madeNewChunk = true;
                     }
                 }
                 else if(liveNeighbors > 3)
                 {
-                    currentNextGenChunk->setCellState(j,15,false);
+                    currentNextGenChunk.setCellState(j,15,false);
                 }
             }
         }
@@ -515,23 +509,23 @@ void LifeSimRunner::simGeneration()
             for(int j = 1;j < 15;j++)
             {
                 int liveNeighbors = 0;
-                if(currentChunk->getCellState(j-1,15))
+                if(currentChunk.getCellState(j-1,15))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,15))
+                if(currentChunk.getCellState(j+1,15))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j-1,14))
+                if(currentChunk.getCellState(j-1,14))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j,14))
+                if(currentChunk.getCellState(j,14))
                 {
                     liveNeighbors += 1;
                 }
-                if(currentChunk->getCellState(j+1,14))
+                if(currentChunk.getCellState(j+1,14))
                 {
                     liveNeighbors += 1;
                 }
@@ -550,15 +544,15 @@ void LifeSimRunner::simGeneration()
 
                 if(liveNeighbors < 2)
                 {
-                    currentNextGenChunk->setCellState(j,15,false);
+                    currentNextGenChunk.setCellState(j,15,false);
                 }
                 else if(liveNeighbors == 3)
                 {
-                    currentNextGenChunk->setCellState(j,15,true);
+                    currentNextGenChunk.setCellState(j,15,true);
                 }
                 else if(liveNeighbors > 3)
                 {
-                    currentNextGenChunk->setCellState(j,15,false);
+                    currentNextGenChunk.setCellState(j,15,false);
                 }
             }
         }
@@ -576,15 +570,15 @@ void LifeSimRunner::simGeneration()
 
         //Check top left corner
         liveNeighbors = 0;
-        if(currentChunk->getCellState(0,1))
+        if(currentChunk.getCellState(0,1))
         {
             liveNeighbors += 1;
         }
-        if(currentChunk->getCellState(1,0))
+        if(currentChunk.getCellState(1,0))
         {
             liveNeighbors += 1;
         }
-        if(currentChunk->getCellState(1,1))
+        if(currentChunk.getCellState(1,1))
         {
             liveNeighbors += 1;
         }
@@ -620,43 +614,43 @@ void LifeSimRunner::simGeneration()
 
         if(liveNeighbors < 2)
         {
-            currentNextGenChunk->setCellState(0,0,false);
+            currentNextGenChunk.setCellState(0,0,false);
         }
         else if(liveNeighbors == 3)
         {
-            currentNextGenChunk->setCellState(0,0,true);
+            currentNextGenChunk.setCellState(0,0,true);
             if(topChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX(),currentChunk->getY()-1);
+                LifeChunk temp(currentChunk.getX(),currentChunk.getY()-1);
                 nextGenChunkList.push_back(temp);
             }
             if(leftChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX()-1,currentChunk->getY());
+                LifeChunk temp(currentChunk.getX()-1,currentChunk.getY());
                 nextGenChunkList.push_back(temp);
             }
             if(topLeftChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX()-1,currentChunk->getY()-1);
+                LifeChunk temp(currentChunk.getX()-1,currentChunk.getY()-1);
                 nextGenChunkList.push_back(temp);
             }
         }
         else if(liveNeighbors > 3)
         {
-            currentNextGenChunk->setCellState(0,0,false);
+            currentNextGenChunk.setCellState(0,0,false);
         }
 
         //Check top right corner
         liveNeighbors = 0;
-        if(currentChunk->getCellState(0,14))
+        if(currentChunk.getCellState(0,14))
         {
             liveNeighbors += 1;
         }
-        if(currentChunk->getCellState(1,15))
+        if(currentChunk.getCellState(1,15))
         {
             liveNeighbors += 1;
         }
-        if(currentChunk->getCellState(1,14))
+        if(currentChunk.getCellState(1,14))
         {
             liveNeighbors += 1;
         }
@@ -692,43 +686,43 @@ void LifeSimRunner::simGeneration()
 
         if(liveNeighbors < 2)
         {
-            currentNextGenChunk->setCellState(0,15,false);
+            currentNextGenChunk.setCellState(0,15,false);
         }
         else if(liveNeighbors == 3)
         {
-            currentNextGenChunk->setCellState(0,15,true);
+            currentNextGenChunk.setCellState(0,15,true);
             if(topChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX(),currentChunk->getY()-1);
+                LifeChunk temp(currentChunk.getX(),currentChunk.getY()-1);
                 nextGenChunkList.push_back(temp);
             }
             if(rightChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX()+1,currentChunk->getY());
+                LifeChunk temp(currentChunk.getX()+1,currentChunk.getY());
                 nextGenChunkList.push_back(temp);
             }
             if(topRightChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX()+1,currentChunk->getY()-1);
+                LifeChunk temp(currentChunk.getX()+1,currentChunk.getY()-1);
                 nextGenChunkList.push_back(temp);
             }
         }
         else if(liveNeighbors > 3)
         {
-            currentNextGenChunk->setCellState(0,15,false);
+            currentNextGenChunk.setCellState(0,15,false);
         }
 
         //Check bottom left corner
         liveNeighbors = 0;
-        if(currentChunk->getCellState(15,1))
+        if(currentChunk.getCellState(15,1))
         {
             liveNeighbors += 1;
         }
-        if(currentChunk->getCellState(14,0))
+        if(currentChunk.getCellState(14,0))
         {
             liveNeighbors += 1;
         }
-        if(currentChunk->getCellState(14,1))
+        if(currentChunk.getCellState(14,1))
         {
             liveNeighbors += 1;
         }
@@ -764,43 +758,43 @@ void LifeSimRunner::simGeneration()
 
         if(liveNeighbors < 2)
         {
-            currentNextGenChunk->setCellState(15,0,false);
+            currentNextGenChunk.setCellState(15,0,false);
         }
         else if(liveNeighbors == 3)
         {
-            currentNextGenChunk->setCellState(15,0,true);
+            currentNextGenChunk.setCellState(15,0,true);
             if(bottomChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX(),currentChunk->getY()+1);
+                LifeChunk temp(currentChunk.getX(),currentChunk.getY()+1);
                 nextGenChunkList.push_back(temp);
             }
             if(leftChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX()-1,currentChunk->getY());
+                LifeChunk temp(currentChunk.getX()-1,currentChunk.getY());
                 nextGenChunkList.push_back(temp);
             }
             if(bottomLeftChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX()-1,currentChunk->getY()+1);
+                LifeChunk temp(currentChunk.getX()-1,currentChunk.getY()+1);
                 nextGenChunkList.push_back(temp);
             }
         }
         else if(liveNeighbors > 3)
         {
-            currentNextGenChunk->setCellState(15,0,false);
+            currentNextGenChunk.setCellState(15,0,false);
         }
 
         //Check bottom right corner
         liveNeighbors = 0;
-        if(currentChunk->getCellState(15,14))
+        if(currentChunk.getCellState(15,14))
         {
             liveNeighbors += 1;
         }
-        if(currentChunk->getCellState(14,14))
+        if(currentChunk.getCellState(14,14))
         {
             liveNeighbors += 1;
         }
-        if(currentChunk->getCellState(14,15))
+        if(currentChunk.getCellState(14,15))
         {
             liveNeighbors += 1;
         }
@@ -836,35 +830,37 @@ void LifeSimRunner::simGeneration()
 
         if(liveNeighbors < 2)
         {
-            currentNextGenChunk->setCellState(15,15,false);
+            currentNextGenChunk.setCellState(15,15,false);
         }
         else if(liveNeighbors == 3)
         {
-            currentNextGenChunk->setCellState(15,15,true);
+            currentNextGenChunk.setCellState(15,15,true);
             if(bottomChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX(),currentChunk->getY()+1);
+                LifeChunk temp(currentChunk.getX(),currentChunk.getY()+1);
                 nextGenChunkList.push_back(temp);
             }
             if(rightChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX()+1,currentChunk->getY());
+                LifeChunk temp(currentChunk.getX()+1,currentChunk.getY());
                 nextGenChunkList.push_back(temp);
             }
             if(bottomRightChunk == NULL)
             {
-                LifeChunk temp(currentChunk->getX()+1,currentChunk->getY()+1);
+                LifeChunk temp(currentChunk.getX()+1,currentChunk.getY()+1);
                 nextGenChunkList.push_back(temp);
             }
         }
         else if(liveNeighbors > 3)
         {
-            currentNextGenChunk->setCellState(15,15,false);
+            currentNextGenChunk.setCellState(15,15,false);
         }
 
         /////////////////////
         //END CORNER CHECKS//
         /////////////////////
+
+        nextGenChunkList[i] = currentNextGenChunk;
     }
 
     std::cout << "Swapping generation vectors..." << std::endl;
@@ -877,13 +873,13 @@ void LifeSimRunner::simGeneration()
 
 void LifeSimRunner::randomize()
 {
-    LifeChunk temp;
+    LifeChunk temp(3,2);
     chunkList.push_back(temp);
-    temp.setX(1);
+    temp.setX(4);
     chunkList.push_back(temp);
-    temp.setY(1);
+    temp.setY(3);
     chunkList.push_back(temp);
-    temp.setX(0);
+    temp.setX(3);
     chunkList.push_back(temp);
 
     for(int i = 0;i < chunkList.size();i++)
