@@ -3,7 +3,6 @@
 LifeSimRunner::LifeSimRunner()
 {
     chunkList.resize(0);
-    randomize();
 }
 
 LifeSimRunner::~LifeSimRunner()
@@ -22,68 +21,70 @@ void LifeSimRunner::simGeneration()
         std::cout << "Checking chunk " << i+1 << " of " << chunkList.size() << "..." << std::endl;
         LifeChunk currentChunk = chunkList.at(i);
         LifeChunk currentNextGenChunk = nextGenChunkList.at(i);
-
-        int liveInnerCells = 0;
-        //Check inner square of cells
-        for(int j = 1;j < 15;j++)
+        if(currentChunk.getLiveCells())
         {
-            for(int k = 1;k < 15;k++)
+            int liveInnerCells = 0;
+            //Check inner square of cells
+            for(int j = 1;j < 15;j++)
             {
-                int liveNeighbors = 0;
-                if(currentChunk.getCellState(j-1,k-1))
+                for(int k = 1;k < 15;k++)
                 {
-                    liveNeighbors += 1;
-                }
-                if(currentChunk.getCellState(j-1,k))
-                {
-                    liveNeighbors += 1;
-                }
-                if(currentChunk.getCellState(j-1,k+1))
-                {
-                    liveNeighbors += 1;
-                }
-                if(currentChunk.getCellState(j+1,k-1))
-                {
-                    liveNeighbors += 1;
-                }
-                if(currentChunk.getCellState(j+1,k))
-                {
-                    liveNeighbors += 1;
-                }
-                if(currentChunk.getCellState(j+1,k+1))
-                {
-                    liveNeighbors += 1;
-                }
-                if(currentChunk.getCellState(j,k-1))
-                {
-                    liveNeighbors += 1;
-                }
-                if(currentChunk.getCellState(j,k+1))
-                {
-                    liveNeighbors += 1;
-                }
+                    int liveNeighbors = 0;
+                    if(currentChunk.getCellState(j-1,k-1))
+                    {
+                        liveNeighbors += 1;
+                    }
+                    if(currentChunk.getCellState(j-1,k))
+                    {
+                        liveNeighbors += 1;
+                    }
+                    if(currentChunk.getCellState(j-1,k+1))
+                    {
+                        liveNeighbors += 1;
+                    }
+                    if(currentChunk.getCellState(j+1,k-1))
+                    {
+                        liveNeighbors += 1;
+                    }
+                    if(currentChunk.getCellState(j+1,k))
+                    {
+                        liveNeighbors += 1;
+                    }
+                    if(currentChunk.getCellState(j+1,k+1))
+                    {
+                        liveNeighbors += 1;
+                    }
+                    if(currentChunk.getCellState(j,k-1))
+                    {
+                        liveNeighbors += 1;
+                    }
+                    if(currentChunk.getCellState(j,k+1))
+                    {
+                        liveNeighbors += 1;
+                    }
 
-                if(liveNeighbors < 2)
-                {
-                    currentNextGenChunk.setCellState(j,k,false);
-                }
-                else if(liveNeighbors == 2 && currentNextGenChunk.getCellState(j,k))
-                {
-                    liveInnerCells += 1;
-                }
-                else if(liveNeighbors == 3)
-                {
-                    currentNextGenChunk.setCellState(j,k,true);
-                    liveInnerCells += 1;
-                }
-                else if(liveNeighbors > 3)
-                {
-                    currentNextGenChunk.setCellState(j,k,false);
+                    if(liveNeighbors < 2)
+                    {
+                        currentNextGenChunk.setCellState(j,k,false);
+                    }
+                    else if(liveNeighbors == 2 && currentNextGenChunk.getCellState(j,k))
+                    {
+                        liveInnerCells += 1;
+                    }
+                    else if(liveNeighbors == 3)
+                    {
+                        currentNextGenChunk.setCellState(j,k,true);
+                        liveInnerCells += 1;
+                    }
+                    else if(liveNeighbors > 3)
+                    {
+                        currentNextGenChunk.setCellState(j,k,false);
+                    }
                 }
             }
+            std::cout << "Finished inner checking." << std::endl;
+            std::cout << "Found " << liveInnerCells << " live cells." << std::endl;
         }
-        std::cout << "Finished inner checking." << std::endl;
-        std::cout << "Found " << liveInnerCells << " live cells." << std::endl;
 
 
         //Check to see if surrounding chunks exist for edge checking
@@ -588,7 +589,7 @@ void LifeSimRunner::simGeneration()
             {
                 liveNeighbors += 1;
             }
-            if(topChunk->getCellState(14,0))
+            if(topChunk->getCellState(15,1))
             {
                 liveNeighbors += 1;
             }
@@ -619,6 +620,14 @@ void LifeSimRunner::simGeneration()
         else if(liveNeighbors == 3)
         {
             currentNextGenChunk.setCellState(0,0,true);
+        }
+        else if(liveNeighbors > 3)
+        {
+            currentNextGenChunk.setCellState(0,0,false);
+        }
+
+        if(currentNextGenChunk.getCellState(0,0))
+        {
             if(topChunk == NULL)
             {
                 LifeChunk temp(currentChunk.getX(),currentChunk.getY()-1);
@@ -634,10 +643,6 @@ void LifeSimRunner::simGeneration()
                 LifeChunk temp(currentChunk.getX()-1,currentChunk.getY()-1);
                 nextGenChunkList.push_back(temp);
             }
-        }
-        else if(liveNeighbors > 3)
-        {
-            currentNextGenChunk.setCellState(0,0,false);
         }
 
         //Check top right corner
@@ -691,6 +696,14 @@ void LifeSimRunner::simGeneration()
         else if(liveNeighbors == 3)
         {
             currentNextGenChunk.setCellState(0,15,true);
+        }
+        else if(liveNeighbors > 3)
+        {
+            currentNextGenChunk.setCellState(0,15,false);
+        }
+
+        if(currentNextGenChunk.getCellState(0,15))
+        {
             if(topChunk == NULL)
             {
                 LifeChunk temp(currentChunk.getX(),currentChunk.getY()-1);
@@ -706,10 +719,6 @@ void LifeSimRunner::simGeneration()
                 LifeChunk temp(currentChunk.getX()+1,currentChunk.getY()-1);
                 nextGenChunkList.push_back(temp);
             }
-        }
-        else if(liveNeighbors > 3)
-        {
-            currentNextGenChunk.setCellState(0,15,false);
         }
 
         //Check bottom left corner
@@ -763,6 +772,14 @@ void LifeSimRunner::simGeneration()
         else if(liveNeighbors == 3)
         {
             currentNextGenChunk.setCellState(15,0,true);
+        }
+        else if(liveNeighbors > 3)
+        {
+            currentNextGenChunk.setCellState(15,0,false);
+        }
+
+        if(currentNextGenChunk.getCellState(15,0))
+        {
             if(bottomChunk == NULL)
             {
                 LifeChunk temp(currentChunk.getX(),currentChunk.getY()+1);
@@ -778,10 +795,6 @@ void LifeSimRunner::simGeneration()
                 LifeChunk temp(currentChunk.getX()-1,currentChunk.getY()+1);
                 nextGenChunkList.push_back(temp);
             }
-        }
-        else if(liveNeighbors > 3)
-        {
-            currentNextGenChunk.setCellState(15,0,false);
         }
 
         //Check bottom right corner
@@ -835,6 +848,14 @@ void LifeSimRunner::simGeneration()
         else if(liveNeighbors == 3)
         {
             currentNextGenChunk.setCellState(15,15,true);
+        }
+        else if(liveNeighbors > 3)
+        {
+            currentNextGenChunk.setCellState(15,15,false);
+        }
+
+        if(currentNextGenChunk.getCellState(15,15))
+        {
             if(bottomChunk == NULL)
             {
                 LifeChunk temp(currentChunk.getX(),currentChunk.getY()+1);
@@ -850,10 +871,6 @@ void LifeSimRunner::simGeneration()
                 LifeChunk temp(currentChunk.getX()+1,currentChunk.getY()+1);
                 nextGenChunkList.push_back(temp);
             }
-        }
-        else if(liveNeighbors > 3)
-        {
-            currentNextGenChunk.setCellState(15,15,false);
         }
 
         /////////////////////
@@ -873,6 +890,7 @@ void LifeSimRunner::simGeneration()
 
 void LifeSimRunner::randomize()
 {
+    chunkList.resize(0);
     LifeChunk temp(3,2);
     chunkList.push_back(temp);
     temp.setX(4);
@@ -896,6 +914,252 @@ void LifeSimRunner::randomize()
             }
         }
     }
+}
+
+void LifeSimRunner::glider()
+{
+    chunkList.resize(0);
+    LifeChunk temp(3,2);
+    temp.setCellState(0,1,true);
+    temp.setCellState(1,2,true);
+    temp.setCellState(2,0,true);
+    temp.setCellState(2,1,true);
+    temp.setCellState(2,2,true);
+    chunkList.push_back(temp);
+}
+
+void LifeSimRunner::gliderGun() //initialize the grid to Gosper's Glider Gun
+{
+    chunkList.resize(0);
+    LifeChunk left(2,2);
+    left.setCellState(4,0,true);
+    left.setCellState(4,1,true);
+    left.setCellState(5,0,true);
+    left.setCellState(5,1,true);
+    left.setCellState(4,10,true);
+    left.setCellState(5,10,true);
+    left.setCellState(6,10,true);
+    left.setCellState(3,11,true);
+    left.setCellState(2,12,true);
+    left.setCellState(2,13,true);
+    left.setCellState(3,15,true);
+    left.setCellState(7,15,true);
+    left.setCellState(8,13,true);
+    left.setCellState(8,12,true);
+    left.setCellState(7,11,true);
+    left.setCellState(3,15,true);
+    left.setCellState(5,14,true);
+    chunkList.push_back(left);
+
+    LifeChunk middle(3,2);
+    middle.setCellState(4,0,true);
+    middle.setCellState(5,0,true);
+    middle.setCellState(6,0,true);
+    middle.setCellState(5,1,true);
+    middle.setCellState(2,4,true);
+    middle.setCellState(3,4,true);
+    middle.setCellState(4,4,true);
+    middle.setCellState(2,5,true);
+    middle.setCellState(3,5,true);
+    middle.setCellState(4,5,true);
+    middle.setCellState(1,6,true);
+    middle.setCellState(5,6,true);
+    middle.setCellState(0,8,true);
+    middle.setCellState(1,8,true);
+    middle.setCellState(5,8,true);
+    middle.setCellState(6,8,true);
+    chunkList.push_back(middle);
+
+    LifeChunk right(4,2);
+    right.setCellState(2,2,true);
+    right.setCellState(2,3,true);
+    right.setCellState(3,2,true);
+    right.setCellState(3,3,true);
+    chunkList.push_back(right);
+}
+
+void LifeSimRunner::pulsar()
+{
+    LifeChunk temp(3,2);
+    temp.setCellState(3,1,true);
+    temp.setCellState(4,1,true);
+    temp.setCellState(5,1,true);
+    temp.setCellState(9,1,true);
+    temp.setCellState(10,1,true);
+    temp.setCellState(11,1,true);
+
+    temp.setCellState(1,3,true);
+    temp.setCellState(13,3,true);
+    temp.setCellState(6,3,true);
+    temp.setCellState(8,3,true);
+
+    temp.setCellState(1,4,true);
+    temp.setCellState(13,4,true);
+    temp.setCellState(6,4,true);
+    temp.setCellState(8,4,true);
+
+    temp.setCellState(1,5,true);
+    temp.setCellState(13,5,true);
+    temp.setCellState(6,5,true);
+    temp.setCellState(8,5,true);
+
+    temp.setCellState(3,6,true);
+    temp.setCellState(4,6,true);
+    temp.setCellState(5,6,true);
+    temp.setCellState(9,6,true);
+    temp.setCellState(10,6,true);
+    temp.setCellState(11,6,true);
+
+    temp.setCellState(3,8,true);
+    temp.setCellState(4,8,true);
+    temp.setCellState(5,8,true);
+    temp.setCellState(9,8,true);
+    temp.setCellState(10,8,true);
+    temp.setCellState(11,8,true);
+
+    temp.setCellState(1,9,true);
+    temp.setCellState(13,9,true);
+    temp.setCellState(6,9,true);
+    temp.setCellState(8,9,true);
+
+    temp.setCellState(1,10,true);
+    temp.setCellState(13,10,true);
+    temp.setCellState(6,10,true);
+    temp.setCellState(8,10,true);
+
+    temp.setCellState(1,11,true);
+    temp.setCellState(13,11,true);
+    temp.setCellState(6,11,true);
+    temp.setCellState(8,11,true);
+
+    temp.setCellState(3,13,true);
+    temp.setCellState(4,13,true);
+    temp.setCellState(5,13,true);
+    temp.setCellState(9,13,true);
+    temp.setCellState(10,13,true);
+    temp.setCellState(11,13,true);
+    chunkList.push_back(temp);
+}
+
+void LifeSimRunner::line()
+{
+    chunkList.resize(0);
+
+    LifeChunk left(3,2);
+    LifeChunk middle(4,2);
+    LifeChunk right(5,2);
+
+    left.setCellState(14,1,true);
+    left.setCellState(14,2,true);
+    left.setCellState(14,3,true);
+    left.setCellState(14,4,true);
+    left.setCellState(14,5,true);
+    left.setCellState(14,6,true);
+    left.setCellState(14,7,true);
+    left.setCellState(14,8,true);
+    left.setCellState(14,9,true);
+    left.setCellState(14,10,true);
+    left.setCellState(14,11,true);
+    left.setCellState(14,12,true);
+    left.setCellState(14,13,true);
+    left.setCellState(14,14,true);
+    left.setCellState(14,15,true);
+
+    middle.setCellState(14,0,true);
+    middle.setCellState(14,1,true);
+    middle.setCellState(14,2,true);
+    middle.setCellState(14,3,true);
+    middle.setCellState(14,4,true);
+    middle.setCellState(14,5,true);
+    middle.setCellState(14,6,true);
+    middle.setCellState(14,7,true);
+    middle.setCellState(14,8,true);
+    middle.setCellState(14,9,true);
+    middle.setCellState(14,10,true);
+    middle.setCellState(14,11,true);
+    middle.setCellState(14,12,true);
+    middle.setCellState(14,13,true);
+    middle.setCellState(14,14,true);
+    middle.setCellState(14,15,true);
+
+    right.setCellState(14,0,true);
+    right.setCellState(14,1,true);
+    right.setCellState(14,2,true);
+    right.setCellState(14,3,true);
+    right.setCellState(14,4,true);
+    right.setCellState(14,5,true);
+    right.setCellState(14,6,true);
+    right.setCellState(14,7,true);
+    right.setCellState(14,8,true);
+    right.setCellState(14,9,true);
+    right.setCellState(14,10,true);
+    right.setCellState(14,11,true);
+    right.setCellState(14,12,true);
+    right.setCellState(14,13,true);
+    right.setCellState(14,14,true);
+
+    chunkList.push_back(left);
+    chunkList.push_back(middle);
+    chunkList.push_back(right);
+}
+
+void LifeSimRunner::blockLayer()
+{
+    chunkList.resize(0);
+    LifeChunk temp(3,2);
+
+    temp.setCellState(6,1,true);
+
+    temp.setCellState(5,3,true);
+    temp.setCellState(6,3,true);
+
+    temp.setCellState(2,5,true);
+    temp.setCellState(3,5,true);
+    temp.setCellState(4,5,true);
+
+    temp.setCellState(1,7,true);
+    temp.setCellState(2,7,true);
+    temp.setCellState(3,7,true);
+
+    temp.setCellState(2,8,true);
+
+    chunkList.push_back(temp);
+}
+
+void LifeSimRunner::pentomino()
+{
+    chunkList.resize(0);
+    LifeChunk temp(3,2);
+
+    temp.setCellState(2,1,true);
+
+    temp.setCellState(1,2,true);
+    temp.setCellState(2,2,true);
+    temp.setCellState(3,2,true);
+
+    temp.setCellState(1,3,true);
+
+    chunkList.push_back(temp);
+}
+
+void LifeSimRunner::diehard()
+{
+    chunkList.resize(0);
+    LifeChunk temp(3,2);
+
+    temp.setCellState(2,1,true);
+
+    temp.setCellState(2,2,true);
+    temp.setCellState(3,2,true);
+
+    temp.setCellState(3,6,true);
+
+    temp.setCellState(1,7,true);
+    temp.setCellState(3,7,true);
+
+    temp.setCellState(3,8,true);
+
+    chunkList.push_back(temp);
 }
 
 std::vector<LifeChunk> *LifeSimRunner::getChunks()

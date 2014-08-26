@@ -16,9 +16,6 @@ LifeDisplayHandler::LifeDisplayHandler() : renderX(0), renderY(0)
 LifeDisplayHandler::~LifeDisplayHandler()
 {
     SDL_FreeSurface(cellSurface);
-    delete lifeWindow;
-    delete lifeRenderer;
-    delete cellSurface;
 }
 
 int LifeDisplayHandler::getRenderX()
@@ -50,6 +47,16 @@ void LifeDisplayHandler::drawChunks(std::vector<LifeChunk> *displayChunks)
 
     for(int i = 0;i < displayChunks->size();i++)
     {
+        SDL_SetRenderDrawColor(lifeRenderer,0x00,0x00,0x00,0xFF);
+        if(seizureModeActive)
+        {
+            SDL_FreeSurface(cellSurface);
+            delete cellSurface;
+            delete cellTexture;
+            cellSurface = SDL_CreateRGBSurface(0,8,8,32,0,0,0,0);
+            SDL_FillRect(cellSurface,NULL,SDL_MapRGB(cellSurface->format,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF));
+            cellTexture = SDL_CreateTextureFromSurface(lifeRenderer,cellSurface);
+        }
         std::cout << "Displaying chunk " << i+1 << " of " << displayChunks->size() << "..." << std::endl;
         LifeChunk *currentChunk = &(displayChunks->at(i));
         if(currentChunk == NULL)
@@ -88,7 +95,7 @@ void LifeDisplayHandler::drawChunks(std::vector<LifeChunk> *displayChunks)
 void LifeDisplayHandler::drawChunkBoundaries(std::vector<LifeChunk> *displayChunks)
 {
     SDL_Surface *boundSurface = SDL_CreateRGBSurface(0,128,128,32,0,0,0,0);
-    SDL_FillRect(boundSurface,NULL,SDL_MapRGB(boundSurface->format,0xFF,0xFF,0xFF));
+    SDL_FillRect(boundSurface,NULL,SDL_MapRGB(boundSurface->format,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF));
     SDL_Texture *boundTexture = SDL_CreateTextureFromSurface(lifeRenderer,boundSurface);
 
     SDL_RenderClear(lifeRenderer);
@@ -111,4 +118,23 @@ void LifeDisplayHandler::drawChunkBoundaries(std::vector<LifeChunk> *displayChun
     delete boundTexture;
     SDL_FreeSurface(boundSurface);
     delete boundSurface;
+}
+
+bool LifeDisplayHandler::getSeizureModeActive()
+{
+    return seizureModeActive;
+}
+
+void LifeDisplayHandler::setSeizureModeActive(bool b)
+{
+    seizureModeActive = b;
+    if(b == false)
+    {
+        SDL_FreeSurface(cellSurface);
+        delete cellSurface;
+        delete cellTexture;
+        cellSurface = SDL_CreateRGBSurface(0,8,8,32,0,0,0,0);
+        SDL_FillRect(cellSurface,NULL,SDL_MapRGB(cellSurface->format,0xFF,0xFF,0xFF));
+        cellTexture = SDL_CreateTextureFromSurface(lifeRenderer,cellSurface);
+    }
 }

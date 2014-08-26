@@ -81,9 +81,98 @@ void LifeController::runLife()
                     delete simRunner;
                     simRunner = NULL;
                     simRunner = new LifeSimRunner();
+                    simRunner->randomize();
                     display->setRenderX(0);
                     display->setRenderY(0);
                     display->drawChunks(simRunner->getChunks());
+                }
+                else if(e.key.keysym.sym == SDLK_1)
+                {
+                    paused = true;
+                    debug = false;
+                    delete simRunner;
+                    simRunner = NULL;
+                    simRunner = new LifeSimRunner();
+                    simRunner->glider();
+                    display->setRenderX(0);
+                    display->setRenderY(0);
+                    display->drawChunks(simRunner->getChunks());
+                }
+                else if(e.key.keysym.sym == SDLK_2)
+                {
+                    paused = true;
+                    debug = false;
+                    delete simRunner;
+                    simRunner = NULL;
+                    simRunner = new LifeSimRunner();
+                    simRunner->gliderGun();
+                    display->setRenderX(0);
+                    display->setRenderY(0);
+                    display->drawChunks(simRunner->getChunks());
+                }
+                else if(e.key.keysym.sym == SDLK_3)
+                {
+                    paused = true;
+                    debug = false;
+                    delete simRunner;
+                    simRunner = NULL;
+                    simRunner = new LifeSimRunner();
+                    simRunner->pulsar();
+                    display->setRenderX(0);
+                    display->setRenderY(0);
+                    display->drawChunks(simRunner->getChunks());
+                }
+                else if(e.key.keysym.sym == SDLK_4)
+                {
+                    paused = true;
+                    debug = false;
+                    delete simRunner;
+                    simRunner = NULL;
+                    simRunner = new LifeSimRunner();
+                    simRunner->line();
+                    display->setRenderX(0);
+                    display->setRenderY(0);
+                    display->drawChunks(simRunner->getChunks());
+                }
+                else if(e.key.keysym.sym == SDLK_5)
+                {
+                    paused = true;
+                    debug = false;
+                    delete simRunner;
+                    simRunner = NULL;
+                    simRunner = new LifeSimRunner();
+                    simRunner->blockLayer();
+                    display->setRenderX(0);
+                    display->setRenderY(0);
+                    display->drawChunks(simRunner->getChunks());
+                }
+                else if(e.key.keysym.sym == SDLK_6)
+                {
+                    paused = true;
+                    debug = false;
+                    delete simRunner;
+                    simRunner = NULL;
+                    simRunner = new LifeSimRunner();
+                    simRunner->pentomino();
+                    display->setRenderX(0);
+                    display->setRenderY(0);
+                    display->drawChunks(simRunner->getChunks());
+                }
+                else if(e.key.keysym.sym == SDLK_7)
+                {
+                    paused = true;
+                    debug = false;
+                    delete simRunner;
+                    simRunner = NULL;
+                    simRunner = new LifeSimRunner();
+                    simRunner->diehard();
+                    display->setRenderX(0);
+                    display->setRenderY(0);
+                    display->drawChunks(simRunner->getChunks());
+                }
+                else if(e.key.keysym.sym == SDLK_LCTRL || e.key.keysym.sym == SDLK_RCTRL)
+                {
+                    display->setSeizureModeActive(!display->getSeizureModeActive());
                 }
                 else if(e.key.keysym.sym == SDLK_w)
                 {
@@ -175,7 +264,5 @@ void LifeController::runLife()
                 display->drawChunkBoundaries(simRunner->getChunks());
             }
         }
-
-        SDL_Delay(50);
     }
 }

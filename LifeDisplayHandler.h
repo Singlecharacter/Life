@@ -21,6 +21,9 @@ public:
     int getRenderY();
     void setRenderY(int newRenderY);
 
+    bool getSeizureModeActive();
+    void setSeizureModeActive(bool);
+
     void drawChunks(std::vector<LifeChunk> *displayChunks);
     void drawChunkBoundaries(std::vector<LifeChunk> *displayChunks);
 
@@ -32,6 +35,8 @@ private:
     SDL_Texture *cellTexture;
 
     int renderX, renderY;
+
+    bool seizureModeActive;
 };
 
 #endif // LIFEDISPLAYHANDLER_H

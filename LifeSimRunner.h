@@ -17,12 +17,19 @@ public:
 
     void simGeneration();
 
+    //The following methods initialize the life board to specific states
+    void randomize();
+    void glider();
+    void gliderGun();
+    void pulsar();
+    void line();
+    void blockLayer();
+    void pentomino();
+    void diehard();
+
     std::vector<LifeChunk> *getChunks();
 
 private:
-
-    //void readFile(std::string fname);
-    void randomize();
 
     std::vector<LifeChunk> chunkList;
 };
