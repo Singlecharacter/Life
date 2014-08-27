@@ -1,6 +1,6 @@
 #include "LifeDisplayHandler.h"
 
-LifeDisplayHandler::LifeDisplayHandler() : renderX(0), renderY(0)
+LifeDisplayHandler::LifeDisplayHandler() : renderX(0), renderY(0), seizureModeActive(false)
 {
     lifeWindow = SDL_CreateWindow("The Game of Life",32,32,1024,768,SDL_WINDOW_OPENGL);
     lifeRenderer = SDL_CreateRenderer(lifeWindow,-1,SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);

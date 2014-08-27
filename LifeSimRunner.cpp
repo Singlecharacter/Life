@@ -906,7 +906,7 @@ void LifeSimRunner::randomize()
         {
             for(int k = 0;k < 16;k++)
             {
-                if(rand() % 2 == 1)
+                if(rand() % 3 == 1)
                 {
                     chunkList.at(i).setCellState(j,k,true);
                     std::cout << "Seeded a live cell."  << std::endl;
